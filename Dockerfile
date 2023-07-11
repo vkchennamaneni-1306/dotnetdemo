@@ -17,9 +17,11 @@ COPY --from=build /app/publish .
 
 ENV ASPNETCORE_URLS http://*:5000
 
+RUN groupadd -r pavani && \
+    useradd -r -g pavani -s /bin/false pavani && \
+    chown -R pavani:pavani /app
 
-
+USER pras
 
 EXPOSE 5000
 ENTRYPOINT ["dotnet", "dotnet6.dll"]
-
