@@ -25,3 +25,4 @@ USER pavani
 
 EXPOSE 5000
 ENTRYPOINT ["dotnet", "dotnet6.dll"]
+
