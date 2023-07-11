@@ -17,11 +17,8 @@ COPY --from=build /app/publish .
 
 ENV ASPNETCORE_URLS http://*:5000
 
-RUN groupadd -r prashanth && \
-    useradd -r -g prashanth -s /bin/false prashanth && \
-    chown -R prashanth:prashanth /app
 
-USER prashanth
+
 
 EXPOSE 5000
 ENTRYPOINT ["dotnet", "dotnet6.dll"]
