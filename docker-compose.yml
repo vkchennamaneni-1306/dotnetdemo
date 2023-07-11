@@ -5,7 +5,7 @@ services:
      context: .
      dockerfile: dockerfile
      ports:
-      - 5000: 5000
+      - 5000:5000
      environments: ASPNETCORE_URLS http://*:5000
      volumes: 
       - ./app:/app
