@@ -21,7 +21,7 @@ RUN groupadd -r pavani && \
     useradd -r -g pavani -s /bin/false pavani && \
     chown -R pavani:pavani /app
 
-USER pras
+USER pavani
 
 EXPOSE 5000
 ENTRYPOINT ["dotnet", "dotnet6.dll"]
