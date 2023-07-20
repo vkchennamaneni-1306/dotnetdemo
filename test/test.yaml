@@ -20,6 +20,13 @@ spec:
       labels:
         app: myapp
     spec:
+      initContainers:
+      - name: init-setup
+        image: busybox:latest
+        command: ['sh', '-c', 'ls; pwd; sleep 10']
+        envFrom:  # Add this section to use the ConfigMap in the init container
+        - configMapRef:
+            name: myapp-config
       containers:
       - name: dockerdep-10-app
         image: pknnd/dotnetdemo-app 
@@ -37,5 +44,6 @@ spec:
             port: 80
           initialDelaySeconds: 15
           periodSeconds: 5
-      imagePullSecrets:
-        - name: pavanisecret
+        envFrom:  # Add this section to use the ConfigMap in the main container
+        - configMapRef:
+            name: myapp-config
