@@ -23,5 +23,6 @@ RUN groupadd -r pavani && \
 
 USER pavani
 
-EXPOSE 5000
+EXPOSE 8080
+
 ENTRYPOINT ["dotnet", "dotnet6.dll"]
