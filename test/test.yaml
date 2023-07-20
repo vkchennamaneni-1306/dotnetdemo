@@ -10,6 +10,11 @@ spec:
   selector:
     matchLabels:
       app: myapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
   template:
     metadata:
       labels:
@@ -20,5 +25,17 @@ spec:
         image: pknnd/dotnetdemo-app 
         ports:
         - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 5
       imagePullSecrets:
         - name: pavanisecret
