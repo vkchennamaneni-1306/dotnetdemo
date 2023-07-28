@@ -19,7 +19,7 @@ variables:
   imagePullSecret: 'acrpavani189290cc-auth'
 
   # Agent VM image name
-  vmImageName: 'windows'
+  vmImageName: 'My-Agent-Pool'
 
 
 stages:
