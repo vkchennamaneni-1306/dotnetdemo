@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: pavanikondotnetdemo 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pavanikondotnetdemo
+  template:
+    metadata:
+      labels:
+        app: pavanikondotnetdemo 
+    spec:
+      containers:
+        - name: pavanikondotnetdemo 
+          image: azurregistr.azurecr.io/pavanikondotnetdemo
+          ports:
+          - containerPort: 8080
