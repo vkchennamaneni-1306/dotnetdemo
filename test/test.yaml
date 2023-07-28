@@ -6,7 +6,7 @@ metadata:
   labels:
     app: myapp
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: myapp
@@ -20,30 +20,36 @@ spec:
       labels:
         app: myapp
     spec:
-      initContainers:
-      - name: init-setup
-        image: busybox:latest
-        command: ['sh', '-c', 'ls; pwd; sleep 10']
-        envFrom:  # Add this section to use the ConfigMap in the init container
-        - configMapRef:
-            name: myapp-config
+      serviceAccountName: default
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: user
+                  operator: In
+                  values:
+                    - pavani
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - myapp
+              topologyKey: "kubernetes.io/hostname"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - myapp
+              topologyKey: "kubernetes.io/hostname"
       containers:
       - name: dockerdep-10-app
-        image: pknnd/dotnetdemo-app 
+        image: pknnd/dotnetdemo-app
         ports:
         - containerPort: 80
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 80
-          initialDelaySeconds: 30
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /readiness
-            port: 80
-          initialDelaySeconds: 15
-          periodSeconds: 5
-        envFrom:  # Add this section to use the ConfigMap in the main container
-        - configMapRef:
-            name: myapp-config
